@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+from relib.arguments import Arguments
+from relib.buildhelper import Environment
+
+args = Arguments()
+environ = Environment()
+
+if __name__ == "__main__":
+    # to build the docker file with customizations
+    if args.hasCommands(['build']):
+        environ.build()
+
+    # Start a new session for reverse engineering
+    if args.hasCommands(['startsession']):
+        if args.hasOptions(['--session']) and args.hasOptions(['--host']):
+            environ.start_session(sessionname=args.getOptionValue('--session'), hostname=args.getOptionValue('--host'))
+        else:
+            print("\n[*] Missing options --session= --host= ")
+
+    # Get the shell for the session
+    elif args.hasCommands(['shell']):
+        if args.hasOptions(['--session']):
+            environ.spawn_shell(sessionname=args.getOptionValue('--session'))
+        else:
+            print("\n[*] Missing option --session= ")
+    elif args.hasCommands(['stopsession']):
+        if args.hasOptions(['--session']):
+            environ.stop_session(sessionname=args.getOptionValue('--session'))
+        else:
+            print("\n[*] Missing option --session= ")
