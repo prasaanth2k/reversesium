@@ -1,31 +1,15 @@
 import os
 import subprocess
-
+from monisys.Managers.dockermanager import Dockermanage
 
 class Environment:
     # It will build the container for will all the Environment purpose for all types of analysis
     # Binary analysis with secure environment
-    def build(self):
+    def build(self,tag,path):
         try:
-            dockercommand = ["docker", "build", "-t", "reversesium:v1", "."]
-            process = subprocess.Popen(dockercommand, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-
-            # Stream output live
-            for line in process.stdout:
-                print(line, end='')
-
-            # Wait for the process to complete
-            process.wait()
-
-            if process.returncode == 0:
-                print("[*] Build completed successfully")
-            else:
-                print("[!] Build failed")
-                for line in process.stderr:
-                    print(line, end='')
-
-        except Exception as e:
-            print(f"[!] An unexpected error occurred: {e}")
+            os.system(f"docker build -t {tag} {path}")
+        except OSError as e:
+            print(e)
     # It will start the session for binary analysis
     def start_session(self,sessionname,hostname):
         try:
@@ -61,6 +45,7 @@ class Environment:
             dockercommandremove = [
                 "docker","container","rm",sessionname
             ]
+            print("[*] Hold on while stoping sessions")
             result = subprocess.run(dockercommand,capture_output=True)
             stopresult = subprocess.run(dockercommandremove,capture_output=True)
             if result.returncode == 0 and stopresult.returncode == 0:
@@ -69,3 +54,14 @@ class Environment:
                 print("[*] Unable to stop")
         except subprocess.CalledProcessError as e:
             print(e)
+    def current_sessions(self):
+        sessions = Dockermanage()
+        datapoint = sessions.ps()
+        if not datapoint:
+            print("[*] No Session are running")
+        else:
+            for value in datapoint:
+                print("---------------------------")
+                print(f"[*] Session Name : {value.name}")
+                print(f"[*] ID : {value.id}")
+                print(f"[*] State : {value.state}")

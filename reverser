@@ -8,7 +8,10 @@ environ = Environment()
 if __name__ == "__main__":
     # to build the docker file with customizations
     if args.hasCommands(['build']):
-        environ.build()
+        if args.hasOptions(['--tag']) and args.hasOptions(['--path']):
+            environ.build(tag=args.getOptionValue('--tag'),path=args.getOptionValue('--path'))
+        else:
+            environ.build(tag="reversesium:v1",path=".")
 
     # Start a new session for reverse engineering
     if args.hasCommands(['startsession']):
@@ -28,3 +31,5 @@ if __name__ == "__main__":
             environ.stop_session(sessionname=args.getOptionValue('--session'))
         else:
             print("\n[*] Missing option --session= ")
+    elif args.hasCommands(['currentsession']):
+        environ.current_sessions()

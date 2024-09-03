@@ -17,9 +17,10 @@ RUN chmod +x /root/entry.sh
 RUN /root/entry.sh
 COPY /scripts/root.sh /root/.bashrc
 COPY /scripts/user.sh /home/re/.bashrc
+COPY /scripts/re.sh /usr/bin/re
+RUN chmod +x /usr/bin/re
 COPY /scripts/apktoolinstaller.sh /usr/local/bin/apktool
 RUN chmod +x /usr/local/bin/apktool
 COPY /dependfiles/apktool.jar /usr/local/bin/apktool.jar
 USER re
-RUN git clone --depth=1 https://github.com/ohmybash/oh-my-bash.git ~/.oh-my-bash
 WORKDIR /home/re
