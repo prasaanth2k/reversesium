@@ -6,21 +6,22 @@ RUN apt-get update && apt-get upgrade -y \
 RUN apt-get install -y passwd default-jre binwalk
 COPY /dependfiles/radare2 /usr/bin/radare2
 RUN /usr/bin/radare2/sys/install.sh
-RUN apt-get -y install strace ltrace
-RUN useradd -m re && \
-    usermod -aG sudo re
-RUN echo 're:crackme@123' | chpasswd
-RUN sed -i 's|/bin/sh|/bin/bash|' /etc/passwd
-RUN echo 're ALL=(ALL) ALL'>> /etc/sudoers
-COPY /scripts/entry.sh /root/entry.sh
-RUN chmod +x /root/entry.sh
-RUN /root/entry.sh
+RUN apt-get -y install strace ltrace hping3 inetutils-ping
+COPY /scripts/entry.sh /usr/local/bin/script.sh
+RUN chmod +x /usr/local/bin/script.sh
+COPY /scripts/usermanagement.sh /usr/local/bin/usermanagement.sh
+RUN chmod +x /usr/local/bin/usermanagement.sh
 COPY /scripts/root.sh /root/.bashrc
-COPY /scripts/user.sh /home/re/.bashrc
 COPY /scripts/re.sh /usr/bin/re
 RUN chmod +x /usr/bin/re
 COPY /scripts/apktoolinstaller.sh /usr/local/bin/apktool
 RUN chmod +x /usr/local/bin/apktool
 COPY /dependfiles/apktool.jar /usr/local/bin/apktool.jar
-USER re
-WORKDIR /home/re
+COPY /scripts/pythonpackes.sh /usr/local/bin/pythonpackes
+RUN chmod +x /usr/local/bin/pythonpackes
+RUN /usr/local/bin/pythonpackes
+RUN apt-get install -y openssh-server bsdmainutils xxd checksec build-essential dumb-init
+RUN rm /etc/profile.d/ubuntu-sudo.sh
+EXPOSE 4326
+EXPOSE 22
+ENTRYPOINT [ "/usr/local/bin/script.sh" ]

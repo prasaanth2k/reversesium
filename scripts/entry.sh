@@ -1,2 +1,3 @@
-#!/bin/bash
-pip install pwntools --break-system-packages
+#!/bin/sh
+
+dumb-init tail -f /dev/null

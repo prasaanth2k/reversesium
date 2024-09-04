@@ -15,15 +15,17 @@ if __name__ == "__main__":
 
     # Start a new session for reverse engineering
     if args.hasCommands(['startsession']):
-        if args.hasOptions(['--session']) and args.hasOptions(['--host']):
-            environ.start_session(sessionname=args.getOptionValue('--session'), hostname=args.getOptionValue('--host'))
+        if args.hasOptions(['--session']) and args.hasOptions(['--host']) and args.hasOptions(['--network']) and args.hasOptions(['--username']):
+            environ.start_session(sessionname=args.getOptionValue('--session'), hostname=args.getOptionValue('--host'),network=args.getOptionValue('--network'),username=args.getOptionValue('--username'))
+        elif args.hasOptions(['--session']) and args.hasOptions(['--host']) and args.hasOptions(['--network']) and args.hasOptions(['--username']):
+            environ.start_session(sessionname=args.getOptionValue('--session'), hostname=args.getOptionValue('--host'),network=args.getOptionValue('--network'),username=args.getOptionValue('--username'))
         else:
-            print("\n[*] Missing options --session= --host= ")
+            print("\n[*] Missing options --session= --host= --network= --username")
 
     # Get the shell for the session
     elif args.hasCommands(['shell']):
-        if args.hasOptions(['--session']):
-            environ.spawn_shell(sessionname=args.getOptionValue('--session'))
+        if args.hasOptions(['--session']) and args.hasOptions(['--username']):
+            environ.spawn_shell(sessionname=args.getOptionValue('--session'),username=args.getOptionValue('--username'))
         else:
             print("\n[*] Missing option --session= ")
     elif args.hasCommands(['stopsession']):
