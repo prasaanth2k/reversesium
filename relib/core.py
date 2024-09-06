@@ -7,13 +7,25 @@ class CORE:
         process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         while True:
             output = process.stdout.readline()
-            # Break the loop if no more output
             if output == b"" and process.poll() is not None:
                 break
             if output:
                 sys.stdout.write(output.decode())
 
         return process.poll()
+    def straceexec(self, cmd):
+        process = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+        output_lines = []
+        
+        while True:
+            output = process.stderr.readline()
+            if output == "" and process.poll() is not None:
+                break
+            if output:
+                sys.stdout.write(output)
+                output_lines.append(output.strip())
+
+        return output_lines
     def adduser(self,sessionname, username):
         try:
             dockercommand = [

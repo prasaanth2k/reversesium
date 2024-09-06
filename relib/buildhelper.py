@@ -2,9 +2,12 @@ import os
 import subprocess
 from monisys.Managers.dockermanager import Dockermanage
 from relib.core import CORE
+from relib.strace import STRACE
 # Core things functionality
 core = CORE()
-class Environment:
+class Environment(STRACE):
+    def __init__(self) -> None:
+        super().__init__()
     # It will build the container for will all the Environment purpose for all types of analysis
     # Binary analysis with secure environment
     def build(self,tag,path):
@@ -44,7 +47,7 @@ class Environment:
     def spawn_shell(self,sessionname, username):
         try:
             # It will spawn the session which that what user is specifically 
-            os.system(f"docker exec -it {sessionname} bash -c su - {username}")
+            os.system(f"docker exec -it {sessionname} su - {username}")
         except subprocess.CalledProcessError as e:
             print(e)
     

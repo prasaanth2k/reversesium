@@ -2,6 +2,7 @@
 from relib.arguments import Arguments
 from relib.buildhelper import Environment
 
+
 args = Arguments()
 environ = Environment()
 
@@ -26,6 +27,8 @@ if __name__ == "__main__":
     elif args.hasCommands(['shell']):
         if args.hasOptions(['--session']) and args.hasOptions(['--username']):
             environ.spawn_shell(sessionname=args.getOptionValue('--session'),username=args.getOptionValue('--username'))
+        elif args.hasOptions(['--session']):
+            environ.spawn_shell(sessionname=args.getOptionValue('--session'),username="root")
         else:
             print("\n[*] Missing option --session= ")
     elif args.hasCommands(['stopsession']):
@@ -35,3 +38,8 @@ if __name__ == "__main__":
             print("\n[*] Missing option --session= ")
     elif args.hasCommands(['currentsession']):
         environ.current_sessions()
+    elif args.hasCommands(['trace']):
+        if args.hasOptions(['--cmd']):
+            environ.tracer(cmd=args.getOptionValue('--cmd'))
+        else:
+            print("\n[*] Missing option --cmd=")

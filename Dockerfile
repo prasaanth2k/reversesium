@@ -21,7 +21,6 @@ COPY /scripts/pythonpackes.sh /usr/local/bin/pythonpackes
 RUN chmod +x /usr/local/bin/pythonpackes
 RUN /usr/local/bin/pythonpackes
 RUN apt-get install -y openssh-server bsdmainutils xxd checksec build-essential dumb-init
-RUN rm /etc/profile.d/ubuntu-sudo.sh
 EXPOSE 4326
 EXPOSE 22
 ENTRYPOINT [ "/usr/local/bin/script.sh" ]
