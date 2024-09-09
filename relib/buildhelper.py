@@ -1,6 +1,6 @@
 import os
 import subprocess
-from monisys.Managers.dockermanager import Dockermanage
+from monisys.Managers.Systeminfo import SystemInfo
 from relib.core import CORE
 from relib.strace import STRACE
 # Core things functionality
@@ -8,6 +8,7 @@ core = CORE()
 class Environment(STRACE):
     def __init__(self) -> None:
         super().__init__()
+        self.docker_containers = SystemInfo("docker_containers")
     # It will build the container for will all the Environment purpose for all types of analysis
     # Binary analysis with secure environment
     def build(self,tag,path):
@@ -69,13 +70,9 @@ class Environment(STRACE):
         except subprocess.CalledProcessError as e:
             print(e)
     def current_sessions(self):
-        sessions = Dockermanage()
-        datapoint = sessions.ps()
-        if not datapoint:
-            print("[*] No Session are running")
-        else:
-            for value in datapoint:
+        dockerrunningcontainers = self.docker_containers.get_all_data()
+        for containers in dockerrunningcontainers:
                 print("---------------------------")
-                print(f"[*] Session Name : {value.name}")
-                print(f"[*] ID : {value.id}")
-                print(f"[*] State : {value.state}")
+                print(f"[*] Session Name : {containers['name']}")
+                print(f"[*] ID : {containers['id']}")
+                print(f"[*] State : {containers['state']}")

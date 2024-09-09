@@ -1,8 +1,8 @@
-FROM ubuntu:24.04
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get upgrade -y \
-    && apt-get install -y python3 python3-pip systemd htop git sudo curl gdb gcc \
-    ssh x11-utils wmctrl pciutils nano
+    FROM ubuntu:24.04
+    ENV DEBIAN_FRONTEND=noninteractive
+    RUN apt-get update && apt-get upgrade -y \
+        && apt-get install -y python3 python3-pip systemd htop git sudo curl gdb gcc \
+        ssh x11-utils wmctrl pciutils nano
 RUN apt-get install -y passwd default-jre binwalk
 COPY /dependfiles/radare2 /usr/bin/radare2
 RUN /usr/bin/radare2/sys/install.sh
