@@ -1,10 +1,39 @@
 #!/usr/bin/python3
 from relib.arguments import Arguments
 from relib.buildhelper import Environment
-
+from rich import print
 
 args = Arguments()
 environ = Environment()
+
+HELPMESSAGE = """
+[bold magenta blink]🚀 Reversium NinjaLinker v1.0 [/bold magenta blink]
+
+[bold red]⚠️ Important Note:[/bold red] [bold yellow]Make sure to configure NinjaLinker before starting![/bold yellow]
+[bold cyan underline]Available Commands:[/bold cyan underline]
+
+[bold blue]📄 General Options:[/bold blue]
+   [bold white]-h | --help[/bold white]: Show all available options and usage instructions.
+
+[bold blue]🔍 Session Management:[/bold blue]
+   [bold green]currentsession[/bold green]: View details of the current running session.
+   [bold green]startsession --session=[italic]<session_name>[/italic] --host=[italic]<hostname>[/italic] --network=[italic]True/False[/italic] --username=[italic]<username>[/italic][/bold green]: Start a new session with the specified parameters.
+   [bold green]stopsession --session=[italic]re-session[/italic][/bold green]: Stop an existing session.
+
+[bold blue]🖥️ Shell Access:[/bold blue]
+   [bold green]shell --session=[italic]<session_name>[/italic] --username=[italic]<username>[/italic][/bold green]: Establish an interactive shell connection.
+
+[bold blue]📡 Command Tracing:[/bold blue]
+   [bold green]trace --cmd=[italic]ls[/italic][/bold green]: Trace the specified command execution.
+
+[bold yellow]📥 Download NinjaLinker from:[/bold yellow] [bold green underline]https://github.com/prasaanth2k/reversesium[/bold green underline]
+
+[bold magenta]🔧 Reverse Engineering made fun and easy![/bold magenta] 🛠️
+"""
+
+
+def helpmessage():
+    print(HELPMESSAGE)
 
 if __name__ == "__main__":
     # to build the docker file with customizations
@@ -13,7 +42,8 @@ if __name__ == "__main__":
             environ.build(tag=args.getOptionValue('--tag'),path=args.getOptionValue('--path'))
         else:
             environ.build(tag="reversesium:v1",path=".")
-
+    if args.hasOptions(['--help']) or args.hasOptions(['-h']):
+        helpmessage()
     # Start a new session for reverse engineering
     if args.hasCommands(['startsession']):
         if args.hasOptions(['--session']) and args.hasOptions(['--host']) and args.hasOptions(['--network']) and args.hasOptions(['--username']):
