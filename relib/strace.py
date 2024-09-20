@@ -21,7 +21,7 @@ class STRACE:
         categorylist = [MEMORY,FILEACCESS,NETWORK,PROCESS,INTERPROCESSCOMMUNICATION,TIMEMANAGEMENT,SYSTEMINFORMATION,SIGNALS,RESOURCEMANAGEMENT,THREADINGMANAGEMENT,DEVICEMANAGEMENT,EVENTMANAGEMENT,OTHERS]
         for category in categorylist:
             cmd_list = shlex.split(cmd)
-            stracecommand = ["strace", "-e", f"trace={category}"] + cmd_list
+            stracecommand = ["strace", "-n", "-e", f"trace={category}"] + cmd_list
             output = subprocess.run(stracecommand, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
             if category == MEMORY:
                 print(f"[bold white]-------------|MEMORY|------------[/bold white]")
@@ -66,7 +66,7 @@ class STRACE:
 
     def filtered_tracer(self, cmd, category):
         cmd_list = shlex.split(cmd)
-        stracecommand = ["strace", "-e", f"trace={category}"] + cmd_list
+        stracecommand = ["strace","-n","-e", f"trace={category}"] + cmd_list
         output = subprocess.run(stracecommand, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
         if category == MEMORY:
             print(f"[bold white]-------------|MEMORY|------------[/bold white]")
