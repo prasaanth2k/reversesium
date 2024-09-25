@@ -1,2 +1,5 @@
 __pycache__
 dependfiles/radare2
+/build
+/dist
+/reverser.egg-info

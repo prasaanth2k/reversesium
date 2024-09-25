@@ -1,15 +1,12 @@
-from flask import Flask, render_template
-from api.loadavg import loadaverage
+from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('dashboard.html')
+    return render_template('index.html')
 
-@app.route('/api/loadavg')
-def api_loadavg():
-    return loadaverage()
 
-if __name__ == '__main__':
-    app.run(port=4326, host='0.0.0.0')
+if __name__ == "__main__":
+    app.run()

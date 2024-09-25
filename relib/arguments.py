@@ -1,4 +1,5 @@
 import sys
+
 class Arguments:
     def __init__(self, args=None):
         self.commands = []
