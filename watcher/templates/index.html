@@ -3,9 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Session Controller</title>
 </head>
 <body>
-    <button>START SESSION</button>
+    <h1>Start a New Session</h1>
+    <form action="/start_session" method="POST">
+        <label for="sessionname">Session Name:</label>
+        <input type="text" id="sessionname" name="sessionname" required><br><br>
+
+        <label for="hostname">Hostname:</label>
+        <input type="text" id="hostname" name="hostname" required><br><br>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="network">Use Network:</label>
+        <select id="network" name="network">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select><br><br>
+
+        <button type="submit">START SESSION</button>
+    </form>
+
+    <h1>Get Current Session</h1>
+    <form action="/get_current_session" method="POST">
+        <button type="submit">GET CURRENT SESSION</button>
+    </form>
+
+    {% if message %}
+    <h2>{{ message }}</h2>
+    {% endif %}
 </body>
 </html>
