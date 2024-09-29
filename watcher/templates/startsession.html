@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Session</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Start a Session</h1>
+    <form id="sessionForm">
+        <label for="sessionname">Session Name:</label>
+        <input type="text" id="sessionname" name="sessionname" required><br><br>
+        
+        <label for="hostname">Hostname:</label>
+        <input type="text" id="hostname" name="hostname" required><br><br>
+        
+        <label for="network">Network:</label>
+        <select name="network" id="network">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <button type="submit">Start Session</button>
+    </form>
+    
+    <h2>Output:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        $(document).ready(function() {
+            $('#sessionForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting the default way
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/startsession',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#output').text(response.output);
+                    },
+                    error: function(xhr) {
+                        $('#output').text('Error: ' + xhr.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

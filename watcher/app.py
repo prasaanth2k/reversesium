@@ -1,37 +1,39 @@
-from flask import Flask, render_template, request
-from api.controller import SessionController
-import subprocess
+from flask import Flask, render_template, request, jsonify
+from lib.deployers import Deployers
 
 app = Flask(__name__)
-
-controller = SessionController()
+deploy = Deployers()
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/start_session", methods=["POST"])
-def start_session():
-    sessionname = request.form["sessionname"]
-    hostname = request.form["hostname"]
-    username = request.form["username"]
-    network = request.form["network"] == "true"
+@app.route("/startsession.html")
+def start():
+    return render_template("startsession.html")
+
+@app.route("/runningsession.html")
+def running():
+    return render_template("runningsession.html")
+
+@app.route("/api/startsession", methods=["POST"])
+def startsession():
     try:
-        message = controller.start_session_with_network(
-            sessionname, hostname, username, network
-        )
-    except subprocess.CalledProcessError as e:
-        message = f"Error starting session: {e.output.decode()}"
+        session_name = request.form["sessionname"]
+        hostname = request.form["hostname"]
+        network = request.form["network"]
+        username = request.form["username"]
+        output = deploy.startsession(session_name, hostname, network, username)
+        return jsonify({"output": output}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-    return render_template("index.html", message=message)
-
-@app.route("/get_current_session", methods=["POST"])
-def get_current_session():
+@app.route("/api/runningsessions",methods=['POST'])
+def runningsession():
     try:
-        message = controller.get_current_running_session()
-    except subprocess.CalledProcessError as e:
-        message = f"Error getting current session: {e.output.decode()}"
-    return render_template("index.html", message=message)
-
+        output = deploy.currentsession()
+        return jsonify({"output":output}),200
+    except Exception as e:
+        return jsonify({"error":str(e)}),500
 if __name__ == "__main__":
     app.run(debug=True)
