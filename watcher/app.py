@@ -8,14 +8,6 @@ deploy = Deployers()
 def index():
     return render_template("index.html")
 
-@app.route("/startsession.html")
-def start():
-    return render_template("startsession.html")
-
-@app.route("/runningsession.html")
-def running():
-    return render_template("runningsession.html")
-
 @app.route("/api/startsession", methods=["POST"])
 def startsession():
     try:

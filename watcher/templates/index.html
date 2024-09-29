@@ -3,12 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reversium</title>
+    <title>Start Session</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <nav>
-        <a href="startsession.html"><button>STARTSESSION</button></a><br><br>
-        <a href="runningsession.html"><button>RUNNING SESSIONS</button></a>
-    </nav>
+    <div class="container mt-5">
+        <h1 class="mb-4">Start a Session</h1>
+        <form id="sessionForm" class="needs-validation" novalidate>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="sessionname" name="sessionname" placeholder="Session Name" required>
+                <label for="sessionname">Session Name</label>
+                <div class="invalid-feedback">Please provide a session name.</div>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="hostname" name="hostname" placeholder="Hostname" required>
+                <label for="hostname">Hostname</label>
+                <div class="invalid-feedback">Please provide a hostname.</div>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <select class="form-select" id="network" name="network" required>
+                    <option value="" disabled selected>Select Network</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+                <label for="network">Network</label>
+                <div class="invalid-feedback">Please select a network option.</div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                <label for="username">Username</label>
+                <div class="invalid-feedback">Please provide a username.</div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <button type="submit" class="btn btn-success me-md-2">Start Session</button>
+                <button id="currentSessionButton" type="button" class="btn btn-primary">Current Sessions</button>
+            </div>
+        </form>
+        
+        <h2 class="mt-5">Output:</h2>
+        <pre id="output" class="bg-dark text-white p-3 border"></pre>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Client-side form validation
+            (function() {
+                'use strict';
+                var forms = document.querySelectorAll('.needs-validation');
+                Array.prototype.slice.call(forms).forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+
+            // AJAX for starting a session
+            $('#sessionForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting the default way
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/startsession',  // Endpoint for starting the session
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#output').text(response.output);
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'Error: ' + (xhr.responseJSON ? xhr.responseJSON.error : xhr.statusText);
+                        $('#output').text(errorMsg);
+                    }
+                });
+            });
+            $('#currentSessionButton').on('click', function() {
+                $.ajax({
+                    type: 'POST',  // Assuming 'GET' since it is fetching data
+                    url: '/api/runningsessions',  // Endpoint for current sessions
+                    success: function(response) {
+                        $('#output').text(response.output);
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'Error: ' + (xhr.responseJSON ? xhr.responseJSON.error : xhr.statusText);
+                        $('#output').text(errorMsg);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
