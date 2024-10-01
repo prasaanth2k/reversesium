@@ -8,6 +8,10 @@ deploy = Deployers()
 def index():
     return render_template("index.html")
 
+@app.route("/stop")
+def stopsession():
+    return render_template("stopsession.html")
+
 @app.route("/api/startsession", methods=["POST"])
 def startsession():
     try:
@@ -19,6 +23,15 @@ def startsession():
         return jsonify({"output": output}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route("/api/stopsession",methods=["POST"])
+def stopsessionapi():
+    try:
+        session_name = request.form["sessionname"]
+        output = deploy.stopsession(session_name)
+        return jsonify({"output":output}),200
+    except Exception as e:
+        return jsonify({"error":str(e)}),500
 
 @app.route("/api/runningsessions",methods=['POST'])
 def runningsession():

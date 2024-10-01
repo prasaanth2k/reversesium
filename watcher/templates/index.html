@@ -42,61 +42,13 @@
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 <button type="submit" class="btn btn-success me-md-2">Start Session</button>
                 <button id="currentSessionButton" type="button" class="btn btn-primary">Current Sessions</button>
+                <button class="btn btn-primary" type="button"><a class="text-white text-decoration-none" href="/stop">Stop Sessions</a></button>
             </div>
         </form>
         
         <h2 class="mt-5">Output:</h2>
         <pre id="output" class="bg-dark text-white p-3 border"></pre>
     </div>
-
-    <script>
-        $(document).ready(function() {
-            // Client-side form validation
-            (function() {
-                'use strict';
-                var forms = document.querySelectorAll('.needs-validation');
-                Array.prototype.slice.call(forms).forEach(function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            })();
-
-            // AJAX for starting a session
-            $('#sessionForm').on('submit', function(event) {
-                event.preventDefault(); // Prevent the form from submitting the default way
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/startsession',  // Endpoint for starting the session
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        $('#output').text(response.output);
-                    },
-                    error: function(xhr) {
-                        let errorMsg = 'Error: ' + (xhr.responseJSON ? xhr.responseJSON.error : xhr.statusText);
-                        $('#output').text(errorMsg);
-                    }
-                });
-            });
-            $('#currentSessionButton').on('click', function() {
-                $.ajax({
-                    type: 'POST',  // Assuming 'GET' since it is fetching data
-                    url: '/api/runningsessions',  // Endpoint for current sessions
-                    success: function(response) {
-                        $('#output').text(response.output);
-                    },
-                    error: function(xhr) {
-                        let errorMsg = 'Error: ' + (xhr.responseJSON ? xhr.responseJSON.error : xhr.statusText);
-                        $('#output').text(errorMsg);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

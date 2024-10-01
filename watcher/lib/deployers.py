@@ -22,3 +22,14 @@ class Deployers:
                 return output.stderr.decode('utf-8')
         except Exception as e:
             return {"error":str(e)}
+        
+    def stopsession(self,session_name):
+        try:
+            command = f"reverser stopsession --session={session_name}"
+            output = subprocess.run(command,shell=True,capture_output=True,check=True)
+            if output.returncode == 0:
+                return output.stdout.decode('utf-8')
+            else:
+                return output.stderr.decode('utf-8')
+        except Exception as e:
+            return {"error":str(e)}
