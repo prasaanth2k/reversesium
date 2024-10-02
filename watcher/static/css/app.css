@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+*{
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+progress[value]::-webkit-progress-value {
+    background-color: rgb(119, 0, 255);
+    border-radius: 10px;
+}
+::selection {
+    color: rgb(119, 0, 255);;
+    background-color: black;
+}
+::-webkit-scrollbar {
+    width: 5px;
+    background: black;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(119, 0, 255);;
+    border-radius: 10px;
+
+}
+body{
+    margin: 0;
+    /* bottom: 0; */
+}
+.wrapper{
+    position: fixed;
+    top: 0; /* Aligns the div to the top */
+    left: 0; /* Aligns the div to the left */
+    background-color: lightblue; /* Background color */
+    padding: 10px; /* Some padding for better appearance */
+    bottom: 0;
+    padding-right: 25rem;
+}

@@ -3,3 +3,4 @@ dependfiles/radare2
 /build
 /dist
 /reverser.egg-info
+/node_modules
