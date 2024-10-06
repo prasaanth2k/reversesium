@@ -10,8 +10,12 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 class Reverser:
     def __init__(self, args):
         self.args = args
+        length_of_args = int(len(sys.argv))
         if args.hasOptions(['--help']) or args.hasOptions(['-h']):
             self.helpmessage()
+        elif length_of_args == 1:
+            self.helpmessage()
+
 
     def helpmessage(self):
         console = Console()

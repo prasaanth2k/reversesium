@@ -4,3 +4,5 @@ dependfiles/radare2
 /dist
 /reverser.egg-info
 /node_modules
+package-lock.json
+package.json

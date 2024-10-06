@@ -43,3 +43,6 @@ class Managers:
                 environ.tracer(cmd=args.getOptionValue('--cmd'))
             else:
                 print("\n[*] Missing option --cmd=")
+
+        elif args.hasCommands(['pattern']):
+            print("sss")

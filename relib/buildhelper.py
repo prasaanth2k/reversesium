@@ -3,9 +3,10 @@ import subprocess
 from monisys.Managers.Systeminfo import SystemInfo
 from relib.core import CORE
 from relib.strace import STRACE
+from relib.brooker import BROOKER
 # Core things functionality
 core = CORE()
-class Environment(STRACE):
+class Environment(STRACE,BROOKER):
     def __init__(self) -> None:
         super().__init__()
         self.docker_containers = SystemInfo("docker_containers")

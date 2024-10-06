@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
-
 # for test fix
 setup(
     name="reverser",
-    version="0.3",
+    version="0.4",
     packages=find_packages(),
     entry_points={
         "console_scripts": [
