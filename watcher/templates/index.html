@@ -16,33 +16,25 @@
         <h1>Start a Session</h1>
         <form id="sessionForm" novalidate>
             <div>
-                <input type="text" id="sessionname" name="sessionname" placeholder="Session Name" required>
-                <label for="sessionname">Session Name</label>
-                <div class="invalid-feedback">Please provide a session name.</div>
+                <input type="text" id="sessionname" class="inputbox" name="sessionname" placeholder="Session Name" required>
             </div>
             <div>
-                <input type="text" id="hostname" name="hostname" placeholder="Hostname" required>
-                <label for="hostname">Hostname</label>
-                <div class="invalid-feedback">Please provide a hostname.</div>
+                <input type="text" id="hostname" class="inputbox" name="hostname" placeholder="Hostname" required>
             </div>
             <div>
-                <select id="network" name="network" required>
+                <select id="network" class="inputbox" name="network" required>
                     <option value="" disabled selected>Select Network</option>
                     <option value="true">True</option>
                     <option value="false">False</option>
                 </select>
-                <label for="network">Network</label>
-                <div class="invalid-feedback">Please select a network option.</div>
             </div>
             <div>
-                <input type="text" id="username" name="username" placeholder="Username" required>
-                <label for="username">Username</label>
-                <div class="invalid-feedback">Please provide a username.</div>
+                <input type="text" id="username" class="inputbox" name="username" placeholder="Username" required>
             </div>
             <div>
-                <button type="submit">Start Session</button>
-                <button id="currentSessionButton" type="button">Current Sessions</button>
-                <a href="/stop" class="btn btn-danger text-white">Stop Sessions</a>
+                <button type="submit" class="btn-layouts" >Start Session</button>
+                <button id="currentSessionButton" class="btn-layouts" type="button">Current Sessions</button>
+                <a href="/stop" class="btn-layouts">STOP SESSION</a>
             </div>
         </form>
         <h2>Output:</h2>
