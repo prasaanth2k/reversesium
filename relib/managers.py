@@ -44,5 +44,8 @@ class Managers:
             else:
                 print("\n[*] Missing option --cmd=")
 
-        elif args.hasCommands(['pattern']):
-            print("sss")
+        elif args.hasCommands(['hexbytes']):
+            if args.hasOptions(['--value']):
+                environ.hex_to_bytes(hex_value=args.getOptionValue('--value'))
+            else:
+                print("\n[*] Missing option --value=")
